@@ -2,8 +2,6 @@
 //Media Registration File Maker
 //051519
 
-//THIS IS A TEST OF THE GIT COMMIT SYSTEM. 
-
 //Some code borrowed and pieced together from:
 //https://www.dotnetperls.com/
 
