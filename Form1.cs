@@ -86,6 +86,8 @@ namespace Media_Registration
                 Console.WriteLine(filecontent + "," + selected);
             }
 
+            StreamWriter sW = new StreamWriter(file, );
+
             //Function to make file and make its name to:
             //Bombardier-WichitaKS-500732TIO TIN Media Registration File 010219.txt
             //...get filename, use REGEX to find:
