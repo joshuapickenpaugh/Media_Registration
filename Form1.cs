@@ -4,6 +4,9 @@
 
 //Some code borrowed and pieced together from:
 //https://www.dotnetperls.com/
+//...and...
+//https://support.microsoft.com/en-us/help/816149/how-to-read-from-and-write-to-a-text-file-by-using-visual-c
+
 
 using System;
 using System.Collections.Generic;
