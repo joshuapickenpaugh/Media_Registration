@@ -37,7 +37,8 @@ namespace Media_Registration
         }        
         
         //Global var:
-        string fileName;
+        string fileContentsAndPathAndName;
+        string pathWithoutFileName;
 
         //Code for the "Browse" button (browse for local SCAN text file):
         private void BtnBrowse_Click(object sender, EventArgs e)
@@ -48,15 +49,18 @@ namespace Media_Registration
             // Test result:
             if (dialogBoxResult == DialogResult.OK) 
             {
-                fileName = openFileDialog1.FileName;
-                              
+                fileContentsAndPathAndName = openFileDialog1.FileName;
+
+                //TEST THIS IN THE MORNING:
+                Console.WriteLine(pathWithoutFileName = Path.GetTempPath());
+
                 //Tests for correct ".txt" suffix:
-                string fileExtension = Path.GetExtension(fileName);
+                string fileExtension = Path.GetExtension(fileContentsAndPathAndName);
                 if (fileExtension == ".txt")
                 {
                     //Displays the filepath and filename in textbox:
                     {
-                        txtDisplay.Text = fileName;
+                        txtDisplay.Text = fileContentsAndPathAndName;
                     }
                 }
                 //If not correct file type, display messagebox:
@@ -75,7 +79,7 @@ namespace Media_Registration
             string movementTypeSelected = cboMovementType.GetItemText(cboMovementType.SelectedItem);
 
             //Reads the filecontents into an array:
-            string[] fileContents = File.ReadAllLines(fileName);
+            string[] fileContents = File.ReadAllLines(fileContentsAndPathAndName);
 
             //Instantiated to append user selection to VOLSERS:
             StringBuilder appended = new StringBuilder();
