@@ -80,23 +80,36 @@ namespace Media_Registration
             //Reads the filecontents into an array:
             string[] fileContents = File.ReadAllLines(file);
 
+            StringBuilder appended = new StringBuilder();
+
             //Reads through the array, appends the user-selected type of tape:
             foreach (string filecontent in fileContents)
             {
-                Console.WriteLine(filecontent + "," + selected);
+                appended.Append(filecontent);
+                appended.Append(",");
+                appended.Append(selected);
+                appended.Append(Environment.NewLine);
             }
 
-            StreamWriter sW = new StreamWriter(file, );
+            string appendedFileContents = appended.ToString();
+            Console.WriteLine(appendedFileContents);
 
-            //Function to make file and make its name to:
-            //Bombardier-WichitaKS-500732TIO TIN Media Registration File 010219.txt
-            //...get filename, use REGEX to find:
-            //first whitespace, then SPACE, then add user-selected tape movement type, then "Media Registration File", 
-            //                  then current date in correct format, and correct file type (".txt"), then put in same
-            //                  directory as original file. 
+            ////Creates writer object, names file and path (need to work on this...):
+            //StreamWriter sW = new StreamWriter("C:\\Users\\JoshPickenpaugh\\Desktop\\TEST.txt");
+
+            ////Cycles through array and writes to txt file:
+            //foreach (string filecontent in appendedFileContents)
+            //{
+            //    sW.WriteLine(filecontent);
+            //}
+
+            //sW.Close();
 
             //Test to see if file was created, somehow?
             MessageBox.Show("File Creation Complete!");
+
+            //Closes the app:
+            this.Close();
 
         }
     }
