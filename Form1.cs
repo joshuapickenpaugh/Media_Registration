@@ -33,31 +33,30 @@ namespace Media_Registration
             //Initialize Tape Movement Combobox:
             cboMovementType.Items.Add("TIN");
             cboMovementType.Items.Add("VIN");
-            cboMovementType.Items.Add("Mail In");
+            cboMovementType.Items.Add("MAIL IN");
         }        
         
         //Global var:
-        string file;
+        string fileName;
 
         //Code for the "Browse" button (browse for local SCAN text file):
         private void BtnBrowse_Click(object sender, EventArgs e)
         {
             // Show the Windows dialog box:
-            DialogResult result = openFileDialog1.ShowDialog();
+            DialogResult dialogBoxResult = openFileDialog1.ShowDialog();
 
             // Test result:
-            if (result == DialogResult.OK) 
+            if (dialogBoxResult == DialogResult.OK) 
             {
-                file = openFileDialog1.FileName;
+                fileName = openFileDialog1.FileName;
                               
                 //Tests for correct ".txt" suffix:
-                string filePath = Path.GetExtension(file);
-                if (filePath == ".txt")
+                string fileExtension = Path.GetExtension(fileName);
+                if (fileExtension == ".txt")
                 {
                     //Displays the filepath and filename in textbox:
                     {
-                        string text = File.ReadAllText(file);
-                        txtDisplay.Text = file;
+                        txtDisplay.Text = fileName;
                     }
                 }
                 //If not correct file type, display messagebox:
@@ -71,20 +70,22 @@ namespace Media_Registration
         //Code for the "Create File" button:
         private void BtnCreate_Click(object sender, EventArgs e)
         {
-            //Gets the user-selected type of tape:
-            string selected = cboTapeType.GetItemText(cboTapeType.SelectedItem);
+            //Gets the user-selected selections:
+            string tapeTypeSelected = cboTapeType.GetItemText(cboTapeType.SelectedItem);
+            string movementTypeSelected = cboMovementType.GetItemText(cboMovementType.SelectedItem);
 
             //Reads the filecontents into an array:
-            string[] fileContents = File.ReadAllLines(file);
+            string[] fileContents = File.ReadAllLines(fileName);
 
+            //Instantiated to append user selection to VOLSERS:
             StringBuilder appended = new StringBuilder();
 
-            //Reads through the array, appends the user-selected type of tape:
+            //Reads through the array, appends the user-selected type of tape to VOLSERS:
             foreach (string filecontent in fileContents)
             {
                 appended.Append(filecontent);
                 appended.Append(",");
-                appended.Append(selected);
+                appended.Append(tapeTypeSelected);
                 appended.Append(Environment.NewLine);
             }
 
@@ -92,15 +93,17 @@ namespace Media_Registration
             Console.WriteLine(appendedFileContents);
 
             //Creates writer object, names file and path:
-            //Need to save to same place in file as original.
-            //Need to change name to add user SELECTED TAPE MOVEMENT & DATE:
-            StreamWriter sW = new StreamWriter("C:\\Users\\JoshPickenpaugh\\Desktop\\TEST.txt");
+            //Needs to save to same place in file as original without having to ask the user.
+            //Needs to use the original title, up to the first white space.
+            StreamWriter sW = new StreamWriter("C:\\Users\\JoshPickenpaugh\\Desktop\\" + 
+                movementTypeSelected + " MEDIA REGISTRATION FILE " + 
+                DateTime.Now.ToString("MMddyy") + ".txt");
 
-            //Writes entire, appended file with line breaks to a new file:
+            //Writes entire, appended file with line breaks to a new file, then closes:
             sW.Write(appendedFileContents);
-
             sW.Close();
 
+            //Display message to user:
             MessageBox.Show("File Creation Complete!");
 
             //Closes the app:
