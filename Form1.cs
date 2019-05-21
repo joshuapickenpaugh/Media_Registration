@@ -4,9 +4,6 @@
 
 //Some code borrowed and pieced together from:
 //https://www.dotnetperls.com/
-//...and...
-//https://support.microsoft.com/en-us/help/816149/how-to-read-from-and-write-to-a-text-file-by-using-visual-c
-
 
 using System;
 using System.Collections.Generic;
@@ -94,9 +91,9 @@ namespace Media_Registration
             string appendedFileContents = appended.ToString();
             Console.WriteLine(appendedFileContents);
 
-            //Creates writer object, names file and path (need to work on this...):
+            //Creates writer object, names file and path:
             //Need to save to same place in file as original.
-            //Need to change name, and add user SELECTED TAPE MOVEMENT & DATE:
+            //Need to change name to add user SELECTED TAPE MOVEMENT & DATE:
             StreamWriter sW = new StreamWriter("C:\\Users\\JoshPickenpaugh\\Desktop\\TEST.txt");
 
             //Writes entire, appended file with line breaks to a new file:
