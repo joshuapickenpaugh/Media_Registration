@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Media_Registration
 {
@@ -39,6 +40,8 @@ namespace Media_Registration
         //Global var:
         string fileContentsAndPathAndName;
         string pathWithoutFilename;
+        string fileNameWithoutExtension;
+        string fileNameAfterREGEX;
 
         //Code for the "Browse" button (browse for local SCAN text file):
         private void BtnBrowse_Click(object sender, EventArgs e)
@@ -53,6 +56,10 @@ namespace Media_Registration
 
                 //Gets original file path minus the original file name:
                 pathWithoutFilename = Path.GetDirectoryName(fileContentsAndPathAndName);
+                //Gets original file name minus the extension:
+                fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileContentsAndPathAndName);
+                //Applies a REGEX to get all characters from start to first space:
+                fileNameAfterREGEX = Regex.Match(fileNameWithoutExtension, @"([^\s]+)").ToString();                
 
                 //Tests for correct ".txt" suffix:
                 string fileExtension = Path.GetExtension(fileContentsAndPathAndName);
@@ -97,8 +104,8 @@ namespace Media_Registration
 
             //Creates writer object, names file and path:           
             //Needs to use the original title, up to the first white space.
-            StreamWriter sW = new StreamWriter(pathWithoutFilename + "\\" +
-                movementTypeSelected + " Media Registration File " + 
+            StreamWriter sW = new StreamWriter(pathWithoutFilename + "\\" + fileNameAfterREGEX +
+                " " + movementTypeSelected + " Media Registration File " + 
                 DateTime.Now.ToString("MMddyy") + ".txt");
 
             //Writes entire, appended file with line breaks to a new file, then closes:
@@ -107,8 +114,6 @@ namespace Media_Registration
 
             //Display message to user:
             MessageBox.Show("File Creation Complete!");
-
-            Console.WriteLine("TEST = " + pathWithoutFilename);
 
             //Closes the app:
             this.Close();
