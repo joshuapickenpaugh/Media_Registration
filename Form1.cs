@@ -1,6 +1,6 @@
 ﻿//Joshua Pickenpaugh
 //Media Registration File Maker
-//051519
+//052219
 
 //Some code borrowed and pieced together from:
 //https://www.dotnetperls.com/
@@ -30,17 +30,20 @@ namespace Media_Registration
             cboTapeType.Items.Add("LTO3");
             cboTapeType.Items.Add("LTO4");
             cboTapeType.Items.Add("LTO5");
+            cboTapeType.Items.Add("Optical Disk");
+            cboTapeType.Items.Add("USB Drive");
+            cboTapeType.Items.Add("3420 Reel Tape");
 
             //Initialize Tape Movement Combobox:
             cboMovementType.Items.Add("TIN");
             cboMovementType.Items.Add("VIN");
-            cboMovementType.Items.Add("MAIL IN");
+            cboMovementType.Items.Add("MIN");
+            cboMovementType.Items.Add("NTP");
         }        
         
         //Global var:
         string fileContentsAndPathAndName;
         string pathWithoutFilename;
-        string fileNameWithoutExtension;
         string fileNameAfterREGEX;
 
         //Code for the "Browse" button (browse for local SCAN text file):
@@ -49,15 +52,15 @@ namespace Media_Registration
             // Show the Windows dialog box:
             DialogResult dialogBoxResult = openFileDialog1.ShowDialog();
 
-            // Test result:
+            // Test user selection: 
             if (dialogBoxResult == DialogResult.OK) 
             {
                 fileContentsAndPathAndName = openFileDialog1.FileName;
-
-                //Gets original file path minus the original file name:
+                
                 pathWithoutFilename = Path.GetDirectoryName(fileContentsAndPathAndName);
-                //Gets original file name minus the extension:
-                fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileContentsAndPathAndName);
+                
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileContentsAndPathAndName);
+                
                 //Applies a REGEX to get all characters from start to first space:
                 fileNameAfterREGEX = Regex.Match(fileNameWithoutExtension, @"([^\s]+)").ToString();                
 
@@ -73,7 +76,7 @@ namespace Media_Registration
                 //If not correct file type, display messagebox:
                 else
                 {
-                    MessageBox.Show("NOT CORRECT FILE TYPE");
+                    MessageBox.Show("NOT CORRECT FILE TYPE, PLEASE SELECT A .TXT FILE");
                 }
             }
         }
@@ -102,8 +105,7 @@ namespace Media_Registration
 
             string appendedFileContents = appended.ToString();
 
-            //Creates writer object, names file and path:           
-            //Needs to use the original title, up to the first white space.
+            //Creates writer object, names file and path:            
             StreamWriter sW = new StreamWriter(pathWithoutFilename + "\\" + fileNameAfterREGEX +
                 " " + movementTypeSelected + " Media Registration File " + 
                 DateTime.Now.ToString("MMddyy") + ".txt");
@@ -117,9 +119,6 @@ namespace Media_Registration
 
             //Closes the app:
             this.Close();
-
         }
     }
 }
-    
-
