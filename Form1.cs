@@ -2,6 +2,9 @@
 //Media Registration File Maker
 //052219
 
+//***Need to figure out distinction to put the "1" after the word "Registration"...
+//Compartmentalize code.
+
 //Some code borrowed and pieced together from:
 //https://www.dotnetperls.com/
 
@@ -115,7 +118,8 @@ namespace Media_Registration
             sW.Close();
 
             //Display message to user:
-            MessageBox.Show("File Creation Complete!");
+            MessageBox.Show("Your new Media Registration file created and placed in " +
+                "same folder as your selected SCAN file.");
 
             //Closes the app:
             this.Close();
