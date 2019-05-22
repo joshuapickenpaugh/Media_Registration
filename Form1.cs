@@ -38,7 +38,7 @@ namespace Media_Registration
         
         //Global var:
         string fileContentsAndPathAndName;
-        string pathWithoutFileName;
+        string pathWithoutFilename;
 
         //Code for the "Browse" button (browse for local SCAN text file):
         private void BtnBrowse_Click(object sender, EventArgs e)
@@ -51,8 +51,8 @@ namespace Media_Registration
             {
                 fileContentsAndPathAndName = openFileDialog1.FileName;
 
-                //TEST THIS IN THE MORNING:
-                Console.WriteLine(pathWithoutFileName = Path.GetTempPath());
+                //Gets original file path minus the original file name:
+                pathWithoutFilename = Path.GetDirectoryName(fileContentsAndPathAndName);
 
                 //Tests for correct ".txt" suffix:
                 string fileExtension = Path.GetExtension(fileContentsAndPathAndName);
@@ -81,7 +81,7 @@ namespace Media_Registration
             //Reads the filecontents into an array:
             string[] fileContents = File.ReadAllLines(fileContentsAndPathAndName);
 
-            //Instantiated to append user selection to VOLSERS:
+            //Instantiated in order to append user selection to VOLSERS in the FOREACH:
             StringBuilder appended = new StringBuilder();
 
             //Reads through the array, appends the user-selected type of tape to VOLSERS:
@@ -94,13 +94,11 @@ namespace Media_Registration
             }
 
             string appendedFileContents = appended.ToString();
-            Console.WriteLine(appendedFileContents);
 
-            //Creates writer object, names file and path:
-            //Needs to save to same place in file as original without having to ask the user.
+            //Creates writer object, names file and path:           
             //Needs to use the original title, up to the first white space.
-            StreamWriter sW = new StreamWriter("C:\\Users\\JoshPickenpaugh\\Desktop\\" + 
-                movementTypeSelected + " MEDIA REGISTRATION FILE " + 
+            StreamWriter sW = new StreamWriter(pathWithoutFilename + "\\" +
+                movementTypeSelected + " Media Registration File " + 
                 DateTime.Now.ToString("MMddyy") + ".txt");
 
             //Writes entire, appended file with line breaks to a new file, then closes:
@@ -109,6 +107,8 @@ namespace Media_Registration
 
             //Display message to user:
             MessageBox.Show("File Creation Complete!");
+
+            Console.WriteLine("TEST = " + pathWithoutFilename);
 
             //Closes the app:
             this.Close();
