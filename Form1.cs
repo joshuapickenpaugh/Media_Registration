@@ -2,9 +2,6 @@
 //Media Registration File Maker
 //052219
 
-//***Need to figure out distinction to put the "1" after the word "Registration"...
-//Compartmentalize code.
-
 //Some code borrowed and pieced together from:
 //https://www.dotnetperls.com/
 
@@ -42,38 +39,40 @@ namespace Media_Registration
             cboMovementType.Items.Add("VIN");
             cboMovementType.Items.Add("MIN");
             cboMovementType.Items.Add("NTP");
-        }        
-        
+        }
+
         //Global var:
-        string fileContentsAndPathAndName;
-        string pathWithoutFilename;
-        string fileNameAfterREGEX;
+        string strFileContentsAndPathAndName;
+        string strPathWithoutFilename;
+        string strFileNameAfterREGEX;
+        string strTapeTypeSelected;
+        string strMovementTypeSelected;
 
         //Code for the "Browse" button (browse for local SCAN text file):
         private void BtnBrowse_Click(object sender, EventArgs e)
         {
             // Show the Windows dialog box:
-            DialogResult dialogBoxResult = openFileDialog1.ShowDialog();
+            DialogResult diagDialogBoxResult = openFileDialog1.ShowDialog();
 
             // Test user selection: 
-            if (dialogBoxResult == DialogResult.OK) 
+            if (diagDialogBoxResult == DialogResult.OK)
             {
-                fileContentsAndPathAndName = openFileDialog1.FileName;
-                
-                pathWithoutFilename = Path.GetDirectoryName(fileContentsAndPathAndName);
-                
-                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileContentsAndPathAndName);
-                
+                strFileContentsAndPathAndName = openFileDialog1.FileName;
+
+                strPathWithoutFilename = Path.GetDirectoryName(strFileContentsAndPathAndName);
+
+                string strfileNameWithoutExtension = Path.GetFileNameWithoutExtension(strFileContentsAndPathAndName);
+
                 //Applies a REGEX to get all characters from start to first space:
-                fileNameAfterREGEX = Regex.Match(fileNameWithoutExtension, @"([^\s]+)").ToString();                
+                strFileNameAfterREGEX = Regex.Match(strfileNameWithoutExtension, @"([^\s]+)").ToString();
 
                 //Tests for correct ".txt" suffix:
-                string fileExtension = Path.GetExtension(fileContentsAndPathAndName);
-                if (fileExtension == ".txt")
+                string strFileExtension = Path.GetExtension(strFileContentsAndPathAndName);
+                if (strFileExtension == ".txt")
                 {
                     //Displays the filepath and filename in textbox:
                     {
-                        txtDisplay.Text = fileContentsAndPathAndName;
+                        txtDisplay.Text = strFileContentsAndPathAndName;
                     }
                 }
                 //If not correct file type, display messagebox:
@@ -88,33 +87,49 @@ namespace Media_Registration
         private void BtnCreate_Click(object sender, EventArgs e)
         {
             //Gets the user-selected selections:
-            string tapeTypeSelected = cboTapeType.GetItemText(cboTapeType.SelectedItem);
-            string movementTypeSelected = cboMovementType.GetItemText(cboMovementType.SelectedItem);
-
-            //Reads the filecontents into an array:
-            string[] fileContents = File.ReadAllLines(fileContentsAndPathAndName);
-
-            //Instantiated in order to append user selection to VOLSERS in the FOREACH:
-            StringBuilder appended = new StringBuilder();
-
-            //Reads through the array, appends the user-selected type of tape to VOLSERS:
-            foreach (string filecontent in fileContents)
+            //ERROR CHECK FOR SELECTION: "USER MUST SELECT A TYPE!":
+            if (cboTapeType.SelectedIndex == -1)
             {
-                appended.Append(filecontent);
-                appended.Append(",");
-                appended.Append(tapeTypeSelected);
-                appended.Append(Environment.NewLine);
+                MessageBox.Show("You must select a Tape Type");
+            }
+            else
+            {
+                strTapeTypeSelected = cboTapeType.GetItemText(cboTapeType.SelectedItem);
             }
 
-            string appendedFileContents = appended.ToString();
+            if (cboMovementType.SelectedIndex == -1)
+            {
+                MessageBox.Show("You must select a Movement Type");
+            }
+            else
+            {
+                strMovementTypeSelected = cboMovementType.GetItemText(cboMovementType.SelectedItem);
+            }
+
+            //Reads the filecontents into an array:
+            string[] aryFileContents = File.ReadAllLines(strFileContentsAndPathAndName);
+
+            //Instantiated in order to append user selection to VOLSERS in the FOREACH:
+            StringBuilder sbAppended = new StringBuilder();
+
+            //Reads through the array, appends the user-selected type of tape to VOLSERS:
+            foreach (string filecontent in aryFileContents)
+            {
+                sbAppended.Append(filecontent);
+                sbAppended.Append(",");
+                sbAppended.Append(strTapeTypeSelected);
+                sbAppended.Append(Environment.NewLine);
+            }
+
+            string strAppendedFileContents = sbAppended.ToString();
 
             //Creates writer object, names file and path:            
-            StreamWriter sW = new StreamWriter(pathWithoutFilename + "\\" + fileNameAfterREGEX +
-                " " + movementTypeSelected + " Media Registration File " + 
+            StreamWriter sW = new StreamWriter(strPathWithoutFilename + "\\" + strFileNameAfterREGEX +
+                " " + strMovementTypeSelected + " Media Registration File " +
                 DateTime.Now.ToString("MMddyy") + ".txt");
 
             //Writes entire, appended file with line breaks to a new file, then closes:
-            sW.Write(appendedFileContents);
+            sW.Write(strAppendedFileContents);
             sW.Close();
 
             //Display message to user:
