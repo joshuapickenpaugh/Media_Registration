@@ -91,6 +91,7 @@ namespace Media_Registration
             if (cboTapeType.SelectedIndex == -1)
             {
                 MessageBox.Show("You must select a Tape Type");
+                return;
             }
             else
             {
@@ -100,6 +101,7 @@ namespace Media_Registration
             if (cboMovementType.SelectedIndex == -1)
             {
                 MessageBox.Show("You must select a Movement Type");
+                return;
             }
             else
             {
