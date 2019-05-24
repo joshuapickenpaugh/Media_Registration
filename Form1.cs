@@ -1,6 +1,6 @@
 ﻿//Joshua Pickenpaugh
 //Media Registration File Maker
-//052219
+//052419
 
 //Some code borrowed and pieced together from:
 //https://www.dotnetperls.com/
@@ -78,7 +78,7 @@ namespace Media_Registration
                 //If not correct file type, display messagebox:
                 else
                 {
-                    MessageBox.Show("NOT CORRECT FILE TYPE, PLEASE SELECT A .TXT FILE");
+                    MessageBox.Show("NOT CORRECT FILE TYPE, PLEASE SELECT AN INBOUND SCAN.TXT FILE");
                 }
             }
         }
