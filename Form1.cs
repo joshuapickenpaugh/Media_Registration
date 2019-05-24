@@ -89,7 +89,7 @@ namespace Media_Registration
             //Gets the user-selected types, 'returns' to top of button-click event if no selection made:
             if (cboTapeType.SelectedIndex == -1)
             {
-                MessageBox.Show("You must select a Tape Type");
+                MessageBox.Show("You must select a Tape Type.");
                 return;
             }
             else
@@ -99,7 +99,7 @@ namespace Media_Registration
 
             if (cboMovementType.SelectedIndex == -1)
             {
-                MessageBox.Show("You must select a Movement Type");
+                MessageBox.Show("You must select a Movement Type.");
                 return;
             }
             else
