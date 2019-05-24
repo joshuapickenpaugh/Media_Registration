@@ -78,7 +78,7 @@ namespace Media_Registration
                 //If not correct file type, display messagebox:
                 else
                 {
-                    MessageBox.Show("NOT CORRECT FILE TYPE, PLEASE SELECT AN INBOUND SCAN.TXT FILE");
+                    MessageBox.Show("NOT CORRECT FILE TYPE, PLEASE SELECT YOUR INBOUND SCAN.TXT FILE");
                 }
             }
         }
