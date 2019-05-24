@@ -86,8 +86,7 @@ namespace Media_Registration
         //Code for the "Create File" button:
         private void BtnCreate_Click(object sender, EventArgs e)
         {
-            //Gets the user-selected selections:
-            //ERROR CHECK FOR SELECTION: "USER MUST SELECT A TYPE!":
+            //Gets the user-selected types, 'returns' to top of button-click event if no selection made:
             if (cboTapeType.SelectedIndex == -1)
             {
                 MessageBox.Show("You must select a Tape Type");
