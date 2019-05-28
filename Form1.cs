@@ -65,10 +65,8 @@ namespace Media_Registration
                 string strFileExtension = Path.GetExtension(strFileContentsAndPathAndName);
                 if (strFileExtension == ".txt")
                 {
-                    //Displays the filepath and filename in textbox:
-                    {
-                        txtDisplay.Text = strFileContentsAndPathAndName;
-                    }
+                    //Displays the filepath and filename in textbox:                    
+                    txtDisplay.Text = strFileContentsAndPathAndName;                    
                 }
                 //If not correct file type, display messagebox:
                 else
