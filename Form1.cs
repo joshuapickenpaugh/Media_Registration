@@ -61,11 +61,6 @@ namespace Media_Registration
 
                 strPathWithoutFilename = Path.GetDirectoryName(strFileContentsAndPathAndName);
 
-                string strfileNameWithoutExtension = Path.GetFileNameWithoutExtension(strFileContentsAndPathAndName);
-
-                //Applies a REGEX to get all characters from start to first space:
-                strFileNameAfterREGEX = Regex.Match(strfileNameWithoutExtension, @"([^\s]+)").ToString();
-
                 //Tests for correct ".txt" suffix:
                 string strFileExtension = Path.GetExtension(strFileContentsAndPathAndName);
                 if (strFileExtension == ".txt")
@@ -80,12 +75,19 @@ namespace Media_Registration
                 {
                     MessageBox.Show("NOT CORRECT FILE TYPE, PLEASE SELECT YOUR INBOUND SCAN.TXT FILE");
                 }
+
+                string strfileNameWithoutExtension = Path.GetFileNameWithoutExtension(strFileContentsAndPathAndName);
+
+                //Applies a REGEX to get all characters from start to first space:
+                strFileNameAfterREGEX = Regex.Match(strfileNameWithoutExtension, @"([^\s]+)").ToString();
             }
         }
 
         //Code for the "Create File" button:
         private void BtnCreate_Click(object sender, EventArgs e)
         {
+            string strFirstLetterOfTapeType;
+
             //Gets the user-selected types, 'returns' to top of button-click event if no selection made:
             if (cboTapeType.SelectedIndex == -1)
             {
@@ -95,6 +97,7 @@ namespace Media_Registration
             else
             {
                 strTapeTypeSelected = cboTapeType.GetItemText(cboTapeType.SelectedItem);
+                strFirstLetterOfTapeType = Regex.Match(strTapeTypeSelected, @"^[a-zA-Z]").ToString();
             }
 
             if (cboMovementType.SelectedIndex == -1)
@@ -124,14 +127,28 @@ namespace Media_Registration
 
             string strAppendedFileContents = sbAppended.ToString();
 
-            //Creates writer object, names file and path:            
-            StreamWriter sW = new StreamWriter(strPathWithoutFilename + "\\" + strFileNameAfterREGEX +
+            //Creates writer object, names file and path:
+            //IF/ELSE for Bombardier site...if tape is an "LTO", there needs to be a "1" in the filename:
+            if (strFirstLetterOfTapeType == "L")
+            {
+                StreamWriter sW = new StreamWriter(strPathWithoutFilename + "\\" + strFileNameAfterREGEX +
+                " " + strMovementTypeSelected + " Media Registration File 1 " +
+                DateTime.Now.ToString("MMddyy") + ".txt");
+
+                //Writes entire, appended file with line breaks to a new file, then closes:
+                sW.Write(strAppendedFileContents);
+                sW.Close();
+            }
+            else
+            {
+                StreamWriter sW = new StreamWriter(strPathWithoutFilename + "\\" + strFileNameAfterREGEX +
                 " " + strMovementTypeSelected + " Media Registration File " +
                 DateTime.Now.ToString("MMddyy") + ".txt");
 
-            //Writes entire, appended file with line breaks to a new file, then closes:
-            sW.Write(strAppendedFileContents);
-            sW.Close();
+                //Writes entire, appended file with line breaks to a new file, then closes:
+                sW.Write(strAppendedFileContents);
+                sW.Close();
+            }
 
             //Display message to user:
             MessageBox.Show("Your new Media Registration file created and placed in " +
