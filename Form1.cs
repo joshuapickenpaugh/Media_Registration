@@ -25,7 +25,7 @@ namespace Media_Registration
         {
             InitializeComponent();
 
-            //Initialize Tape Type Combobox:
+            //Initialize Tape Type Combobox with content:
             cboTapeType.Items.Add("9840");
             cboTapeType.Items.Add("LTO3");
             cboTapeType.Items.Add("LTO4");
@@ -34,7 +34,7 @@ namespace Media_Registration
             cboTapeType.Items.Add("USB Drive");
             cboTapeType.Items.Add("3420 Reel Tape");
 
-            //Initialize Tape Movement Combobox:
+            //Initialize Tape Movement Combobox with content:
             cboMovementType.Items.Add("TIN");
             cboMovementType.Items.Add("VIN");
             cboMovementType.Items.Add("MIN");
@@ -86,74 +86,88 @@ namespace Media_Registration
         {
             string strFirstLetterOfTapeType;
 
-            //Gets the user-selected types, 'returns' to top of button-click event if no selection made:
-            if (cboTapeType.SelectedIndex == -1)
+            //Check to see if user selected an original SCAN file by looking to 
+            //see if anything is in the textbox:: 
+            string textBox;
+            textBox = txtDisplay.Text;
+            if (String.IsNullOrEmpty(textBox))
             {
-                MessageBox.Show("You must select a Tape Type.");
-                return;
+                MessageBox.Show("You Must Select a File.");
+                return;               
             }
+
+            //If user did select a file:
             else
             {
-                strTapeTypeSelected = cboTapeType.GetItemText(cboTapeType.SelectedItem);
-                strFirstLetterOfTapeType = Regex.Match(strTapeTypeSelected, @"^[a-zA-Z]").ToString();
-            }
+                //Gets the user-selected types, 'returns' to top of button-click event if no selection made:
+                if (cboTapeType.SelectedIndex == -1)
+                {
+                    MessageBox.Show("You must select a Tape Type.");
+                    return;
+                }
+                else
+                {
+                    strTapeTypeSelected = cboTapeType.GetItemText(cboTapeType.SelectedItem);
+                    strFirstLetterOfTapeType = Regex.Match(strTapeTypeSelected, @"^[a-zA-Z]").ToString();
+                }
 
-            if (cboMovementType.SelectedIndex == -1)
-            {
-                MessageBox.Show("You must select a Movement Type.");
-                return;
-            }
-            else
-            {
-                strMovementTypeSelected = cboMovementType.GetItemText(cboMovementType.SelectedItem);
-            }
+                if (cboMovementType.SelectedIndex == -1)
+                {
+                    MessageBox.Show("You must select a Movement Type.");
+                    return;
+                }
+                else
+                {
+                    strMovementTypeSelected = cboMovementType.GetItemText(cboMovementType.SelectedItem);
+                }
 
-            //Reads the filecontents into an array:
-            string[] aryFileContents = File.ReadAllLines(strFileContentsAndPathAndName);
+                //Reads the filecontents into an array:
+                string[] aryFileContents = File.ReadAllLines(strFileContentsAndPathAndName);
 
-            //Instantiated in order to append user selection to VOLSERS in the FOREACH:
-            StringBuilder sbAppended = new StringBuilder();
+                //Instantiated in order to append user selection to VOLSERS in the FOREACH:
+                StringBuilder sbAppended = new StringBuilder();
 
-            //Reads through the array, appends the user-selected type of tape to VOLSERS:
-            foreach (string filecontent in aryFileContents)
-            {
-                sbAppended.Append(filecontent);
-                sbAppended.Append(",");
-                sbAppended.Append(strTapeTypeSelected);
-                sbAppended.Append(Environment.NewLine);
-            }
+                //Reads through the array, appends the user-selected type of tape to VOLSERS:
+                foreach (string filecontent in aryFileContents)
+                {
+                    sbAppended.Append(filecontent);
+                    sbAppended.Append(",");
+                    sbAppended.Append(strTapeTypeSelected);
+                    sbAppended.Append(Environment.NewLine);
+                }
 
-            string strAppendedFileContents = sbAppended.ToString();
+                string strAppendedFileContents = sbAppended.ToString();
 
-            //Creates writer object, names file and path:
-            //IF/ELSE for Bombardier site...if tape is an "LTO", there needs to be a "1" in the filename:
-            if (strFirstLetterOfTapeType == "L")
-            {
-                StreamWriter sW = new StreamWriter(strPathWithoutFilename + "\\" + strFileNameAfterREGEX +
-                " " + strMovementTypeSelected + " Media Registration File 1 " +
-                DateTime.Now.ToString("MMddyy") + ".txt");
+                //Creates writer object, names file and path:
+                //IF/ELSE for Bombardier site...if tape is an "LTO", there needs to be a "1" in the filename:
+                if (strFirstLetterOfTapeType == "L")
+                {
+                    StreamWriter sW = new StreamWriter(strPathWithoutFilename + "\\" + strFileNameAfterREGEX +
+                    " " + strMovementTypeSelected + " Media Registration File 1 " +
+                    DateTime.Now.ToString("MMddyy") + ".txt");
 
-                //Writes entire, appended file with line breaks to a new file, then closes:
-                sW.Write(strAppendedFileContents);
-                sW.Close();
-            }
-            else
-            {
-                StreamWriter sW = new StreamWriter(strPathWithoutFilename + "\\" + strFileNameAfterREGEX +
-                " " + strMovementTypeSelected + " Media Registration File " +
-                DateTime.Now.ToString("MMddyy") + ".txt");
+                    //Writes entire, appended file with line breaks to a new file, then closes:
+                    sW.Write(strAppendedFileContents);
+                    sW.Close();
+                }
+                else
+                {
+                    StreamWriter sW = new StreamWriter(strPathWithoutFilename + "\\" + strFileNameAfterREGEX +
+                    " " + strMovementTypeSelected + " Media Registration File " +
+                    DateTime.Now.ToString("MMddyy") + ".txt");
 
-                //Writes entire, appended file with line breaks to a new file, then closes:
-                sW.Write(strAppendedFileContents);
-                sW.Close();
-            }
+                    //Writes entire, appended file with line breaks to a new file, then closes:
+                    sW.Write(strAppendedFileContents);
+                    sW.Close();
+                }
 
-            //Display message to user:
-            MessageBox.Show("Your new Media Registration file created and placed in " +
-                "same folder as your selected SCAN file.");
+                //Display message to user:
+                MessageBox.Show("Your new Media Registration file created and placed in " +
+                    "same folder as your selected SCAN file.");
 
-            //Closes the app:
-            this.Close();
+                //Closes the app:
+                this.Close();
+            }            
         }
     }
 }
