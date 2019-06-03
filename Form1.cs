@@ -58,6 +58,7 @@ namespace Media_Registration
             //Test user selection for correct ".txt" suffix: 
             TestUserSelection();
 
+            //Gets file name without the suffix:
             string strfileNameWithoutExtension = Path.GetFileNameWithoutExtension(strFileContentsAndPathAndName);
 
             //Applies a REGEX to get all characters from start to first space:
@@ -69,10 +70,10 @@ namespace Media_Registration
         private void BtnCreate_Click(object sender, EventArgs e)
         {
             string strFirstLetterOfTapeType;
+            string textBox;
 
             //Check to see if user selected an original SCAN file by looking to 
             //see if anything is in the textbox:: 
-            string textBox;
             textBox = txtDisplay.Text;
             if (String.IsNullOrEmpty(textBox))
             {
