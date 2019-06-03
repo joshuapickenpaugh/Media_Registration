@@ -41,7 +41,8 @@ namespace Media_Registration
             cboMovementType.Items.Add("NTP");
         }
 
-        //Global var:
+        //Global vars:
+        DialogResult diagDialogBoxResult;
         string strFileContentsAndPathAndName;
         string strPathWithoutFilename;
         string strFileNameAfterREGEX;
@@ -51,34 +52,17 @@ namespace Media_Registration
         //Code for the "Browse" button (browse for local SCAN text file):
         private void BtnBrowse_Click(object sender, EventArgs e)
         {
-            // Show the Windows dialog box:
-            DialogResult diagDialogBoxResult = openFileDialog1.ShowDialog();
+            //Shows the Windows dialog box, assigns user selection:
+            diagDialogBoxResult = openFileDialog1.ShowDialog();
 
-            // Test user selection: 
-            if (diagDialogBoxResult == DialogResult.OK)
-            {
-                strFileContentsAndPathAndName = openFileDialog1.FileName;
+            //Test user selection for correct ".txt" suffix: 
+            TestUserSelection();
 
-                strPathWithoutFilename = Path.GetDirectoryName(strFileContentsAndPathAndName);
+            string strfileNameWithoutExtension = Path.GetFileNameWithoutExtension(strFileContentsAndPathAndName);
 
-                //Tests for correct ".txt" suffix:
-                string strFileExtension = Path.GetExtension(strFileContentsAndPathAndName);
-                if (strFileExtension == ".txt")
-                {
-                    //Displays only the filepath and filename in textbox:                    
-                    txtDisplay.Text = strFileContentsAndPathAndName;                    
-                }
-                //If not correct file type, display messagebox:
-                else
-                {
-                    MessageBox.Show("NOT CORRECT FILE TYPE, PLEASE SELECT YOUR INBOUND SCAN.TXT FILE");
-                }
+            //Applies a REGEX to get all characters from start to first space:
+            strFileNameAfterREGEX = Regex.Match(strfileNameWithoutExtension, @"([^\s]+)").ToString();
 
-                string strfileNameWithoutExtension = Path.GetFileNameWithoutExtension(strFileContentsAndPathAndName);
-
-                //Applies a REGEX to get all characters from start to first space:
-                strFileNameAfterREGEX = Regex.Match(strfileNameWithoutExtension, @"([^\s]+)").ToString();
-            }
         }
 
         //Code for the "Create File" button:
@@ -93,10 +77,10 @@ namespace Media_Registration
             if (String.IsNullOrEmpty(textBox))
             {
                 MessageBox.Show("You Must Select a File.");
-                return;               
+                return;
             }
 
-            //If user did select a file:
+            //If user _did_ select a file:
             else
             {
                 //Gets the user-selected types, 'returns' to top of button-click event if no selection made:
@@ -167,7 +151,31 @@ namespace Media_Registration
 
                 //Closes the app:
                 this.Close();
-            }            
+            }
+        }
+
+        //Test user selection (function from "BROWSE" button): 
+        public void TestUserSelection()
+        {
+            if (diagDialogBoxResult == DialogResult.OK)
+            {
+                strFileContentsAndPathAndName = openFileDialog1.FileName;
+
+                strPathWithoutFilename = Path.GetDirectoryName(strFileContentsAndPathAndName);
+
+                //Tests for correct ".txt" suffix:
+                string strFileExtension = Path.GetExtension(strFileContentsAndPathAndName);
+                if (strFileExtension == ".txt")
+                {
+                    //Displays only the filepath and filename in textbox:                    
+                    txtDisplay.Text = strFileContentsAndPathAndName;
+                }
+                //If not correct file type, display messagebox:
+                else
+                {
+                    MessageBox.Show("NOT CORRECT FILE TYPE, PLEASE SELECT YOUR INBOUND SCAN.TXT FILE");
+                }
+            }
         }
     }
 }
