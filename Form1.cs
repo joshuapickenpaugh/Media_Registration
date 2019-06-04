@@ -49,7 +49,7 @@ namespace Media_Registration
         string strTapeTypeSelected;
         string strMovementTypeSelected;
 
-        //Code for the "Browse" button (browse for local SCAN text file):
+        //"BROWSE" button (browse for local SCAN text file):
         private void BtnBrowse_Click(object sender, EventArgs e)
         {
             //Shows the Windows dialog box, assigns user selection:
@@ -66,7 +66,7 @@ namespace Media_Registration
 
         }
 
-        //Code for the "Create File" button:
+        //"CREATE FILE" button:
         private void BtnCreate_Click(object sender, EventArgs e)
         {
             string strFirstLetterOfTapeType;
