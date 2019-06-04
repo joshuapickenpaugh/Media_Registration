@@ -48,6 +48,7 @@ namespace Media_Registration
         string strFileNameAfterREGEX;
         string strTapeTypeSelected;
         string strMovementTypeSelected;
+        string strFirstLetterOfTapeType;
 
         //"BROWSE" button (browse for local SCAN text file):
         private void BtnBrowse_Click(object sender, EventArgs e)
@@ -69,11 +70,9 @@ namespace Media_Registration
         //"CREATE FILE" button:
         private void BtnCreate_Click(object sender, EventArgs e)
         {
-            string strFirstLetterOfTapeType;
-            string textBox;
-
             //Check to see if user selected an original SCAN file by looking to 
-            //see if anything is in the textbox:: 
+            //see if anything is in the textbox:
+            string textBox;
             textBox = txtDisplay.Text;
             if (String.IsNullOrEmpty(textBox))
             {
@@ -81,10 +80,11 @@ namespace Media_Registration
                 return;
             }
 
-            //If user _did_ select a file:
+            //After user selects a file:
             else
             {
-                //Gets the user-selected types, 'returns' to top of button-click event if no selection made:
+                //COMBOBOX SELECTION:
+                //Gets the user-selected types, 'returns' to the top of this "IF" if nothing selected:
                 if (cboTapeType.SelectedIndex == -1)
                 {
                     MessageBox.Show("You must select a Tape Type.");
@@ -96,6 +96,7 @@ namespace Media_Registration
                     strFirstLetterOfTapeType = Regex.Match(strTapeTypeSelected, @"^[a-zA-Z]").ToString();
                 }
 
+                //Gets the user-selected type, 'returns' to the top of the "IF" if nothing selected:
                 if (cboMovementType.SelectedIndex == -1)
                 {
                     MessageBox.Show("You must select a Movement Type.");
