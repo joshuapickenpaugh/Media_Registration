@@ -70,24 +70,23 @@ namespace Media_Registration
         //"CREATE FILE" button:
         private void BtnCreate_Click(object sender, EventArgs e)
         {
-            //Check to see if user selected an original SCAN file by looking to 
-            //see if anything is in the textbox:
+            //Check to see if user selected an original SCAN  
+            //file by looking tosee if anything is in the textbox:
             string textBox;
             textBox = txtDisplay.Text;
             if (String.IsNullOrEmpty(textBox))
             {
-                MessageBox.Show("You Must Select a File.");
+                MessageBox.Show("You must select a FILE.");
                 return;
             }
 
             //After user selects a file:
             else
-            {
-                //COMBOBOX SELECTION:
+            {                
                 //Gets the user-selected types, 'returns' to the top of this "IF" if nothing selected:
                 if (cboTapeType.SelectedIndex == -1)
                 {
-                    MessageBox.Show("You must select a Tape Type.");
+                    MessageBox.Show("You must select a TAPE TYPE.");
                     return;
                 }
                 else
@@ -96,10 +95,10 @@ namespace Media_Registration
                     strFirstLetterOfTapeType = Regex.Match(strTapeTypeSelected, @"^[a-zA-Z]").ToString();
                 }
 
-                //Gets the user-selected type, 'returns' to the top of the "IF" if nothing selected:
+                //Gets the user-selected type, 'returns' to the top of the this "IF" if nothing selected:
                 if (cboMovementType.SelectedIndex == -1)
                 {
-                    MessageBox.Show("You must select a Movement Type.");
+                    MessageBox.Show("You must select a MOVEMENT TYPE.");
                     return;
                 }
                 else
@@ -110,7 +109,7 @@ namespace Media_Registration
                 //Reads the filecontents into an array:
                 string[] aryFileContents = File.ReadAllLines(strFileContentsAndPathAndName);
 
-                //Instantiated in order to append user selection to VOLSERS in the FOREACH:
+                //Used to append user-selected tape type to VOLSERS in the FOREACH:
                 StringBuilder sbAppended = new StringBuilder();
 
                 //Reads through the array, appends the user-selected type of tape to VOLSERS:
@@ -122,10 +121,11 @@ namespace Media_Registration
                     sbAppended.Append(Environment.NewLine);
                 }
 
+                //Finished, appended VOLSERS with user-selected tape type to each tape:
                 string strAppendedFileContents = sbAppended.ToString();
 
                 //Creates writer object, names file and path:
-                //IF/ELSE for Bombardier site...if tape is an "LTO", there needs to be a "1" in the filename:
+                //***IF/ELSE for Bombardier site...if tape is an "LTO", there needs to be a "1" in the filename:
                 if (strFirstLetterOfTapeType == "L")
                 {
                     StreamWriter sW = new StreamWriter(strPathWithoutFilename + "\\" + strFileNameAfterREGEX +
@@ -148,7 +148,7 @@ namespace Media_Registration
                 }
 
                 //Display message to user:
-                MessageBox.Show("Your new Media Registration file created and placed in " +
+                MessageBox.Show("Your new MEDIA REGISTRATION FILE has been created and placed in " +
                     "same folder as your selected SCAN file.");
 
                 //Closes the app:
