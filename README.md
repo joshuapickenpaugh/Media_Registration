@@ -4,7 +4,7 @@
 
 <br>
 
-Using the scan file, this simple-to-use program enables the user to easily append ",(whatever tape type)" to the end of each tape VOLSER. After the file is created, it places the new file in the same folder as the scan file and closes the app. 
+Using the scan file, this simple-to-use program enables the user to easily append ",(whatever tape type)" to the end of each tape VOLSER. After the file is created, it places the new file in the same folder as the scan file. The app automatically closes after the file is created.  
 
 <br>
 
